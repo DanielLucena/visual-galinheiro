@@ -1,7 +1,6 @@
 import type { Story } from "@ladle/react";
-import Galinheiro, { Registro, No } from "./Galinheiro.tsx";
-import { RegistroContext } from "./RegistroContext.tsx";
-import React, { useMemo, useState } from "react";
+import Galinheiro, { Registro } from "./Galinheiro.tsx";
+
 const db: Registro = {
   galinheiro_id: 1,
   timestamp: 10,
@@ -43,18 +42,11 @@ const db: Registro = {
     },
   ],
 };
-const [registro, setRegistro] = useState(db);
-const RegistroProviderValue = useMemo(
-  () => ({ registro, setRegistro }),
-  [registro, setRegistro]
-);
 
-export const WelcomeStory: Story = () => {
+export const GalinheiroStory: Story = () => {
   return (
     <>
-      <RegistroContext.Provider value={RegistroProviderValue}>
-        <Galinheiro registro={registro} />
-      </RegistroContext.Provider>
+      <Galinheiro registro={db} />
     </>
   );
 };

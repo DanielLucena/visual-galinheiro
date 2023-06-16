@@ -1,6 +1,5 @@
 import "./galinheiro.css";
 import Rainbow from "rainbowvis.js";
-import MySlider from "./MySlider";
 
 export type No = {
   zona: number;
