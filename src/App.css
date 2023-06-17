@@ -5,7 +5,7 @@
   margin: 0;
 }
 a{
-  color: black;
+  color: rgb(255, 0, 0);
 }
 a:hover{
   color: azure;
