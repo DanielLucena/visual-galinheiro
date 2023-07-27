@@ -1,0 +1,38 @@
+.dataTable {
+	text-align: center;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.table-container {
+	overflow-y: auto;
+}
+
+.floating-table {
+	background-color: white;
+	border: 1px solid #ccc;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	border-spacing: 0;
+	width: 80%;
+	/* Ajuste o tamanho da tabela conforme necessário */
+	margin-top: 20px;
+	/* Espaço entre a tabela e os outros elementos */
+}
+
+.floating-table thead th {
+	background-color: #f2f2f2;
+	font-weight: bold;
+	padding: 8px 12px;
+}
+
+.floating-table tbody td {
+	padding: 8px 12px;
+}
+
+.floating-table th,
+.floating-table td {
+	min-width: 80px;
+}
