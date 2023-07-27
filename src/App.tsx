@@ -4,6 +4,7 @@ import NavBar from "./components/NavBar/NavBar";
 import Home from "./pages/home/Home";
 import DashBoard from "./pages/dashboard/DashBoard";
 import Monitoring from "./pages/monitoring/Monitoring";
+import Tabela from "./pages/tabela/Tabela";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="dashboard" element={<DashBoard />} />
           <Route path="monitoring" element={<Monitoring />} />
+          <Route path="tabela" element={<Tabela />} />
         </Routes>
       </div>
     </>
