@@ -5,6 +5,7 @@ export default function NavBar() {
       <a href="/">Home</a>
       <a href="dashboard">DashBoard</a>
       <a href="monitoring">Galinheiros</a>
+      <a href="tabela">Tabela</a>
     </nav>
   );
 }
