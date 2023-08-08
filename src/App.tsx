@@ -9,25 +9,22 @@ import DataTable from "./pages/Registros/Registros";
 
 import Tabela from "./pages/tabela/Tabela";
 
-
 function App() {
-	return (
-		<>
-			<div className="App">
-				<NavBar />
-
+  return (
+    <>
+      <div className="App">
+        <NavBar />
 
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="dashboard" element={<DashBoard />} />
           <Route path="monitoring" element={<Monitoring />} />
           <Route path="tabela" element={<Tabela />} />
-          <Route path="table" element={<DataTable />} />
+          <Route path="data-table" element={<DataTable />} />
         </Routes>
       </div>
     </>
   );
-
 }
 
 export default App;
