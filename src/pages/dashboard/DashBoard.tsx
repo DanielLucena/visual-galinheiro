@@ -12,30 +12,62 @@ import {
 } from "firebase/firestore";
 import { db } from "../../utils/firebase";
 import { useEffect, useState } from "react";
-import MultipleLineChart, {
+import MultipleLineChart from "../../components/charts/MultipleLineChart";
+import {
   RegistrosUmaVariavel,
-} from "../../components/charts/MultipleLineChart";
+  RegistroType,
+  RegistrosUmNo,
+  ResgistrosPorSensor,
+} from "../../utils/resgistroTypes";
 import "./dashboard.css";
 import { getAllNosData } from "../../utils/nosObserver";
+import { getOnlyTemp, nosGetData } from "../../utils/nosGetData";
+import { nosGetDataPorSensor } from "../../utils/nosGetDataPorSensor";
+import OneLineChart from "../../components/charts/OneLineChart";
 
-export type RegistroType = {
-  id: number;
-  amonia: number;
-  luminosidade: number;
-  temperatura: number;
-  umidade: number;
-  timestamp: Timestamp;
-};
-export type RegistrosUmNo = {
-  noId: number;
-  registros: RegistroType[];
-};
+// export type RegistroType = {
+//   id: number;
+//   amonia: number;
+//   luminosidade: number;
+//   temperatura: number;
+//   umidade: number;
+//   timestamp: Timestamp;
+// };
+// export type RegistrosUmNo = {
+//   noId: number;
+//   registros: RegistroType[];
+// };
 
-const DashBoard = () => {
-  const [registrosAllNos, setRegistrosAllnos] = useState<RegistrosUmNo[]>([]);
+function DashBoard() {
+  const [registrosAllNos, setRegistrosAllnos] = useState<ResgistrosPorSensor>({
+    temperatura: [],
+    umidade: [],
+    amonia: [],
+    luminosidade: [],
+  });
+  const [isLoading, setIsLoading] = useState(true);
+  //const [onlyTemp, setOnlyTemp] = useState<RegistrosUmaVariavel[]>([]);
+  //console.log("renderwith", registrosAllNos);
 
   useEffect(() => {
-    getAllNosData(setRegistrosAllnos);
+    const fetchData = async () => {
+      setIsLoading(true);
+      const data = await nosGetDataPorSensor();
+      console.log("data", data);
+      setRegistrosAllnos(data);
+
+      //setRegistrosAllnos(data);
+      // const tempData = await getOnlyTemp(data);
+      // setOnlyTemp(tempData);
+      // console.log("tempData", tempData);
+
+      //console.log("ok");
+    };
+    fetchData();
+    //console.log("len", registrosAllNos.temperatura.length);
+    setIsLoading(false);
+
+    //.catch(console.error);
   }, []);
 
   // useEffect(() => {
@@ -88,59 +120,40 @@ const DashBoard = () => {
   // };
 
   // getData();
-  console.log("oi");
-  console.log(registrosAllNos);
-  console.log(registrosAllNos.toString());
+  // fetchData();
+  console.log("dashboard", registrosAllNos);
+  console.log("temp", registrosAllNos.temperatura);
+  //console.log(registrosAllNos.length);
+
+  if (isLoading) {
+    return <h1>loading...</h1>;
+  }
+
   return (
     <div>
       <h1>This is the DashBoard page</h1>
+      {isLoading && <h2>loading...</h2>}
       <div style={{ width: 700 }}>
-        {registrosAllNos.length > 0 && (
+        {isLoading === false ? (
           <MultipleLineChart
-            nos={registrosAllNos.map((registrosNo) => {
-              const dataset: RegistrosUmaVariavel = {
-                noId: registrosNo.noId,
-                valores: registrosNo.registros.map((resgistro) => {
-                  return resgistro.temperatura;
-                }),
-              };
-              return dataset;
-            })}
             title={"temperatura"}
+            nos={registrosAllNos?.temperatura}
           />
+        ) : (
+          <h2>no data</h2>
         )}
-
-        {registrosAllNos.length.toString()}
       </div>
-      <ul>
-        <li className="cabecalho">
-          <div>id</div>
-          <div>amonia</div>
-          <div>luminosidade</div>
-          <div>temperatura</div>
-          <div>umidade</div>
-          <div>timestamp</div>
-        </li>
-        {registrosAllNos.map((no) => (
-          <li className="registroInfo">
-            <div>{no.noId}</div>
-            {/* {no.registros.map((registro) => {
-              return (
-                <div>
-                  <div>{registro.id}</div>
-                  <div>{registro.amonia}</div>
-                  <div>{registro.luminosidade}</div>
-                  <div>{registro.temperatura}</div>
-                  <div>{registro.umidade}</div>
-                  <div>{registro.timestamp.toString()}</div>
-                </div>
-              );
-            })} */}
-          </li>
-        ))}
-      </ul>
+      {/* <ul>
+        {registrosAllNos.temperatura.map((no) => {
+          return (
+            <li key={no.label} className="registroInfo">
+              <h3>{no.label}</h3>
+            </li>
+          );
+        })}
+      </ul> */}
     </div>
   );
-};
+}
 
 export default DashBoard;

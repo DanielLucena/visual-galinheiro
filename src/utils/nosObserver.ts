@@ -19,7 +19,7 @@ export type RegistrosUmNo={
 //       );
 // })
 
-export function getAllNosData(callback:React.Dispatch<React.SetStateAction<RegistrosUmNo[]>>){
+export async function getAllNosData(callback:React.Dispatch<React.SetStateAction<RegistrosUmNo[]>>){
     let AllNosRegistros: Array<RegistrosUmNo> = [];
 
     nosRatreados.forEach((no)=>{
@@ -53,10 +53,10 @@ export function getAllNosData(callback:React.Dispatch<React.SetStateAction<Regis
           );
         
     })
-     console.log("fun");
-     console.log(typeof AllNosRegistros);
-     console.log(AllNosRegistros.length);
+    //  console.log("fun");
+    //  console.log(typeof AllNosRegistros);
+    //  console.log(AllNosRegistros.length);
     
-    callback(AllNosRegistros);
+    await callback(AllNosRegistros);
     
 }

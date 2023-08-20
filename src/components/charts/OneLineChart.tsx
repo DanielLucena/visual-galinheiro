@@ -26,39 +26,35 @@ ChartJS.register(
 );
 
 export type multipleLineChartProps = {
-  nos: RegistrosUmaVariavel[];
+  nos: RegistrosUmaVariavel;
   title: string;
 };
 export default function MultipleLineChart(props: multipleLineChartProps) {
   console.log("props", props);
-  const [state, setState] = useState<{
-    labels: string[];
-    datasets: RegistrosUmaVariavel[];
-  } | null>(null);
-  useEffect(() => {
-    //console.log("effect", props.nos[0].valores);
-    // const temp = [
-    //   ...props.nos.map((no) => {
-    //     return {
-    //       label: no.noId.toString(),
-    //       data: [...no.valores],
-    //     };
-    //   }),
-    // ];
-    setState({
-      labels: ["1", "2", "3", "4", "5"],
-      datasets: props.nos,
-    });
-  }, [props.nos]);
+  //   const [state, setState] = useState<{
+  //     labels: string[];
+  //     datasets: RegistrosUmaVariavel[];
+  //   } | null>(null);
+  //   useEffect(() => {
+  //     //console.log("effect", props.nos[0].valores);
+  //     // const temp = [
+  //     //   ...props.nos.map((no) => {
+  //     //     return {
+  //     //       label: no.noId.toString(),
+  //     //       data: [...no.valores],
+  //     //     };
+  //     //   }),
+  //     // ];
+  //     setState({
+  //       labels: ["1", "2", "3", "4", "5"],
+  //       datasets: [{ ...props.nos }],
+  //     });
+  //   }, [props.nos]);
   console.log("chart", props);
 
   var data = {
-    labels: ["1", "2", "3", "4", "5"],
-    datasets: props?.nos?.map((no) => {
-      return {
-        ...no,
-      };
-    }),
+    labels: ["1", "2", "3", "4"],
+    datasets: [{ ...props.nos }],
   };
 
   //const [statekey, setStatekey] = useState(0);
@@ -158,14 +154,10 @@ export default function MultipleLineChart(props: multipleLineChartProps) {
       },
     },
   };
-  console.log("state", state);
+  // console.log("state", state);
   return (
     <div>
-      {state !== null ? (
-        <Line options={options} data={data} />
-      ) : (
-        <h1>carregando</h1>
-      )}
+      <Line options={options} data={data} />
     </div>
   );
 }
