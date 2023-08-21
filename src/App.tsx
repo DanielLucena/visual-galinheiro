@@ -4,6 +4,7 @@ import NavBar from "./components/NavBar/NavBar";
 import Home from "./pages/home/Home";
 import DashBoard from "./pages/dashboard/DashBoard";
 import Monitoring from "./pages/monitoring/Monitoring";
+import { Analytics } from "@vercel/analytics/react";
 
 import DataTable from "./pages/Registros/Registros";
 
@@ -23,6 +24,7 @@ function App() {
           <Route path="data-table" element={<DataTable />} />
         </Routes>
       </div>
+      <Analytics />
     </>
   );
 }

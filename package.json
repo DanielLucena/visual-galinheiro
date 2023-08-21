@@ -17,6 +17,7 @@
     "@mui/material": "^5.14.2",
     "@mui/x-charts": "^6.0.0-alpha.4",
     "@mui/x-data-grid": "^6.10.1",
+    "@vercel/analytics": "^1.0.2",
     "chart.js": "^4.3.2",
     "firebase": "^10.1.0",
     "rainbowvis.js": "^1.1.1",
