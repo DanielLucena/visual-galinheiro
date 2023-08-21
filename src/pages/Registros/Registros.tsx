@@ -4,15 +4,6 @@ import { format } from "date-fns";
 import DatePicker from "react-datepicker";
 import "./dataTable.css";
 
-import { db } from "../../utils/firebase";
-import {
-  Timestamp,
-  collection,
-  limit,
-  orderBy,
-  query,
-  where,
-} from "firebase/firestore";
 interface DataItem {
   id: number;
   date: Date;
@@ -23,7 +14,7 @@ interface DataItem {
 }
 
 const DataTable: React.FC = () => {
-  const [data, setData] = useState<DataItem[]>([
+  const [data] = useState<DataItem[]>([
     {
       id: 1,
       date: new Date(),
@@ -63,25 +54,25 @@ const DataTable: React.FC = () => {
 
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [idFilter, setIdFilter] = useState<string>("");
-  const [dateRange, setDateRange] = useState({
-    startDate: new Date(),
-    endDate: new Date(),
-  });
+  // const [dateRange, setDateRange] = useState({
+  //   startDate: new Date(),
+  //   endDate: new Date(),
+  // });
 
-  const filteredData = useMemo<DataItem[]>(
-    () =>
-      data.filter(
-        (row) =>
-          (dateRange.startDate
-            ? new Date(row.date) >= dateRange.startDate
-            : true) &&
-          (dateRange.endDate
-            ? new Date(row.date) <= dateRange.endDate
-            : true) &&
-          (idFilter ? row.id.toString() === idFilter : true)
-      ),
-    [data, dateRange]
-  );
+  // const filteredData = useMemo<DataItem[]>(
+  //   () =>
+  //     data.filter(
+  //       (row) =>
+  //         (dateRange.startDate
+  //           ? new Date(row.date) >= dateRange.startDate
+  //           : true) &&
+  //         (dateRange.endDate
+  //           ? new Date(row.date) <= dateRange.endDate
+  //           : true) &&
+  //         (idFilter ? row.id.toString() === idFilter : true)
+  //     ),
+  //   [data, dateRange]
+  // );
 
   return (
     <div className="dataTable">

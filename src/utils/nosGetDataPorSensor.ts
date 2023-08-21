@@ -1,7 +1,7 @@
-import { DocumentData, Query, QuerySnapshot, Unsubscribe, collection, getDocs, limit, onSnapshot, orderBy, query, where } from "firebase/firestore";
+import { DocumentData, Query, collection, getDocs, limit, orderBy, query, where } from "firebase/firestore";
 import { db } from "./firebase";
 //import {nosRatreados} from './staticConfig';
-import { RegistroType, RegistrosUmNo, ResgistrosPorSensor } from "../utils/resgistroTypes";
+import { RegistroType, ResgistrosPorSensor } from "../utils/resgistroTypes";
 import { RegistrosUmaVariavel } from "./resgistroTypes"
 const NosRef = collection(db, "No");
 
@@ -27,7 +27,7 @@ export const nosGetDataPorSensor = async () => {
                 NosRef,
                 where("id", "==", no),
                 orderBy("timestamp", "desc"),
-                limit(5)
+                limit(10)
               );
               //const registros: RegistroType[] = [];
               const temperaturas:RegistrosUmaVariavel={label:no.toString(),data:[]}

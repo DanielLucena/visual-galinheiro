@@ -1,7 +1,5 @@
 
-import {
-    Timestamp,
-  } from "firebase/firestore";
+
 
 export type RegistroType = {
     id: number;
@@ -9,7 +7,7 @@ export type RegistroType = {
     luminosidade: number;
     temperatura: number;
     umidade: number;
-    timestamp: Timestamp;
+    timestamp: string;
   };
 
   export type RegistrosUmNo = {

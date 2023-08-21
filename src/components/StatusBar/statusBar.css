@@ -1,0 +1,10 @@
+.bar{
+    display: flex;
+    gap:5px
+}
+
+.bar div{
+    padding: 5px;
+    margin: 5px;
+    background-color: blue;
+}

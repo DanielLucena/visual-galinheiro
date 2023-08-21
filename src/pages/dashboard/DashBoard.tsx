@@ -1,29 +1,10 @@
-import {
-  DocumentData,
-  Query,
-  QuerySnapshot,
-  Timestamp,
-  collection,
-  limit,
-  onSnapshot,
-  orderBy,
-  query,
-  where,
-} from "firebase/firestore";
-import { db } from "../../utils/firebase";
 import { useEffect, useState } from "react";
 import MultipleLineChart from "../../components/charts/MultipleLineChart";
-import {
-  RegistrosUmaVariavel,
-  RegistroType,
-  RegistrosUmNo,
-  ResgistrosPorSensor,
-} from "../../utils/resgistroTypes";
+import { ResgistrosPorSensor } from "../../utils/resgistroTypes";
 import "./dashboard.css";
-import { getAllNosData } from "../../utils/nosObserver";
-import { getOnlyTemp, nosGetData } from "../../utils/nosGetData";
 import { nosGetDataPorSensor } from "../../utils/nosGetDataPorSensor";
-import OneLineChart from "../../components/charts/OneLineChart";
+
+import Paper from "@mui/material/Paper";
 
 // export type RegistroType = {
 //   id: number;
@@ -133,25 +114,33 @@ function DashBoard() {
     <div>
       <h1>This is the DashBoard page</h1>
       {isLoading && <h2>loading...</h2>}
-      <div style={{ width: 700 }}>
-        {isLoading === false ? (
+      <div className="charts-grid">
+        <Paper elevation={3}>
+          <div className="multi-line-chart">
+            <MultipleLineChart
+              title={"temperatura"}
+              nos={registrosAllNos?.temperatura}
+            />
+          </div>
+        </Paper>
+        <Paper elevation={3}>
+          <div style={{ width: 500 }}>
+            <MultipleLineChart
+              title={"umidade"}
+              nos={registrosAllNos?.umidade}
+            />
+          </div>
+        </Paper>
+        <div style={{ width: 500 }}>
+          <MultipleLineChart title={"amonia"} nos={registrosAllNos?.amonia} />
+        </div>
+        <div style={{ width: 500 }}>
           <MultipleLineChart
-            title={"temperatura"}
-            nos={registrosAllNos?.temperatura}
+            title={"luminosidade"}
+            nos={registrosAllNos?.luminosidade}
           />
-        ) : (
-          <h2>no data</h2>
-        )}
+        </div>
       </div>
-      {/* <ul>
-        {registrosAllNos.temperatura.map((no) => {
-          return (
-            <li key={no.label} className="registroInfo">
-              <h3>{no.label}</h3>
-            </li>
-          );
-        })}
-      </ul> */}
     </div>
   );
 }

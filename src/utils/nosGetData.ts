@@ -1,8 +1,8 @@
-import { DocumentData, Query, QuerySnapshot, Unsubscribe, collection, getDocs, limit, onSnapshot, orderBy, query, where } from "firebase/firestore";
+import { DocumentData, Query, collection, getDocs, limit, orderBy, query, where } from "firebase/firestore";
 import { db } from "./firebase";
 import {nosRatreados} from './staticConfig';
-import { RegistroType } from "../pages/dashboard/DashBoard";
-import { RegistrosUmaVariavel } from "../components/charts/MultipleLineChart";
+import { RegistroType } from "./resgistroTypes";
+
 const NosRef = collection(db, "No");
 
 
@@ -48,33 +48,33 @@ export const nosGetData = async () => {
 }
 
 
-export async function getOnlyTemp(registrosAllNos:RegistrosUmNo[]):Promise<RegistrosUmaVariavel[]>{
-    console.log("fun1",registrosAllNos);
-    console.log("fun1 length",registrosAllNos.length);
-    //const datasets:RegistrosUmaVariavel[] = [];
-    const datasets:RegistrosUmaVariavel[] = [];
-    for(const no of registrosAllNos){
-        console.log("no");
-        const valoresArr:number[] = no.registros.map((registros)=>{
-            return registros.temperatura;
-         })
-        const registrosUmaVariavel:RegistrosUmaVariavel={
-            noId: no.noId,
-            valores: valoresArr}
+// export async function getOnlyTemp(registrosAllNos:RegistrosUmNo[]):Promise<RegistrosUmaVariavel[]>{
+//     console.log("fun1",registrosAllNos);
+//     console.log("fun1 length",registrosAllNos.length);
+//     //const datasets:RegistrosUmaVariavel[] = [];
+//     const datasets:RegistrosUmaVariavel[] = [];
+//     for(const no of registrosAllNos){
+//         console.log("no");
+//         const valoresArr:number[] = no.registros.map((registros)=>{
+//             return registros.temperatura;
+//          })
+//         const registrosUmaVariavel:RegistrosUmaVariavel={
+//             label: no.noId.toString(),
+//             valores: valoresArr}
                  
-                 datasets.push(registrosUmaVariavel);
-        };
+//                  datasets.push(registrosUmaVariavel);
+//         };
     
-    //  = await Promise.all(registrosAllNos.map(async (registrosNo) => {
-    //     return{
-    //         noId: registrosNo.noId,
-    //         valores: [1,2,3]
-    //         // registrosNo.registros.map((registros)=>{
-    //         //     return registros.temperatura;
-    //         // })
-    //     }
-    //   }))
-      console.log("fun2", datasets);
-      return datasets;
+//     //  = await Promise.all(registrosAllNos.map(async (registrosNo) => {
+//     //     return{
+//     //         noId: registrosNo.noId,
+//     //         valores: [1,2,3]
+//     //         // registrosNo.registros.map((registros)=>{
+//     //         //     return registros.temperatura;
+//     //         // })
+//     //     }
+//     //   }))
+//       console.log("fun2", datasets);
+//       return datasets;
 
-}
+// }

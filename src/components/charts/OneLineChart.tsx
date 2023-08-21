@@ -11,7 +11,6 @@ import {
 import { Line } from "react-chartjs-2";
 import { Colors } from "chart.js";
 import { RegistrosUmaVariavel } from "../../utils/resgistroTypes";
-import { useEffect, useState } from "react";
 
 ChartJS.register(Colors);
 

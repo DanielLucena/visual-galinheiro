@@ -12,6 +12,7 @@ import { Line } from "react-chartjs-2";
 import { Colors } from "chart.js";
 import { RegistrosUmaVariavel } from "../../utils/resgistroTypes";
 import { useEffect, useState } from "react";
+import "./multipleLineChart.css";
 
 ChartJS.register(Colors);
 
@@ -52,8 +53,15 @@ export default function MultipleLineChart(props: multipleLineChartProps) {
   }, [props.nos]);
   console.log("chart", props);
 
+  var labels: string[] = [];
+
+  for (let i = 1; i <= props?.nos[0]?.data.length; i++) {
+    labels.push(i.toString());
+  }
+  console.log("labels", labels);
+
   var data = {
-    labels: ["1", "2", "3", "4", "5"],
+    labels: labels,
     datasets: props?.nos?.map((no) => {
       return {
         ...no,
@@ -160,7 +168,7 @@ export default function MultipleLineChart(props: multipleLineChartProps) {
   };
   console.log("state", state);
   return (
-    <div>
+    <div className="chat-box">
       {state !== null ? (
         <Line options={options} data={data} />
       ) : (

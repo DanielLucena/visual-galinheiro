@@ -1,7 +1,8 @@
 import { DocumentData, Query, QuerySnapshot, Unsubscribe, collection, limit, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import { db } from "./firebase";
 import {nosRatreados} from './staticConfig';
-import { RegistroType } from "../pages/dashboard/DashBoard";
+import { RegistroType } from "./resgistroTypes";
+
 const NosRef = collection(db, "No");
 
 export type RegistrosUmNo={
@@ -21,7 +22,7 @@ export type RegistrosUmNo={
 
 export async function getAllNosData(callback:React.Dispatch<React.SetStateAction<RegistrosUmNo[]>>){
     let AllNosRegistros: Array<RegistrosUmNo> = [];
-
+    let unsubListenerFunctions: Unsubscribe[] = [];
     nosRatreados.forEach((no)=>{
         const querie: Query<DocumentData> =  query(
                 NosRef,
@@ -51,7 +52,7 @@ export async function getAllNosData(callback:React.Dispatch<React.SetStateAction
             registros:registros})
             }
           );
-        
+          unsubListenerFunctions.push(unsubscribre)
     })
     //  console.log("fun");
     //  console.log(typeof AllNosRegistros);

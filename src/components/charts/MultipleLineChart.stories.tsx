@@ -1,6 +1,5 @@
 import type { Story } from "@ladle/react";
 import MultipleLineChart from "./MultipleLineChart";
-import { RegistrosUmaVariavel } from "../../utils/resgistroTypes";
 
 export const MultipleLineChartStory: Story = () => {
   const nos = [];

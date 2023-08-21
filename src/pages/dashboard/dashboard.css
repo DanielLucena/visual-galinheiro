@@ -6,3 +6,19 @@
     display: flex;
     justify-content: space-around;
 }
+
+.multi-line-chart{
+    width: 100%;
+    
+}
+
+.charts-grid{
+    display: grid;
+    grid-template-columns: 50% 50% ;
+    gap: 5px;
+}
+.charts-grid div{
+    padding: 0px;
+    margin: 20px;
+   
+}
