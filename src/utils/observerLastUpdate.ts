@@ -5,7 +5,7 @@ import { RegistroType } from "../utils/resgistroTypes";
 
 const NosRef = collection(db, "No");
 
-export const observerLastUpdate =  (state: RegistroType[],callback:React.Dispatch<React.SetStateAction<RegistroType[]>>) => {
+export const observerLastUpdate =  (callback:React.Dispatch<React.SetStateAction<RegistroType>>) => {
     let unsubListenerFunctions: Unsubscribe[] = [];
     let AllNosRegistros: RegistroType[] = [];
     for(const no of nosRatreados){
@@ -31,15 +31,8 @@ export const observerLastUpdate =  (state: RegistroType[],callback:React.Dispatc
                       umidade: data.umidade,
                       timestamp: data.timestamp,
                     };
-                    callback(state.map((no) =>{
-                        if(registro.id === no.id && registro.timestamp !== no.timestamp){
-                            console.log("update")
-                            return registro
-                            
-                        }
-                            return no
-                    }
-                    ) )
+                    callback(registro);
+                    //return registro
                     AllNosRegistros.push(registro);
                   });
                   
