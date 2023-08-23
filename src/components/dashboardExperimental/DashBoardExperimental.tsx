@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import MultipleLineChart from "../../components/charts/MultipleLineChart";
 import { RegistrosUmNo } from "../../utils/resgistroTypes";
-import "./dashboard.css";
+import "./../../pages/dashboard/dashboard.css";
 
 import Paper from "@mui/material/Paper";
 import { nosGetData } from "../../utils/nosGetData";
@@ -21,14 +21,6 @@ import { nosObserver } from "../../utils/nosObserver";
 // };
 
 function DashBoard() {
-  // const [registrosAllNos, setRegistrosAllnos] = useState<RegistrosPorSensor>({
-  //   temperatura: [],
-  //   umidade: [],
-  //   amonia: [],
-  //   luminosidade: [],
-  //   timestamp: [],
-  // });
-  // const [isLoading, setIsLoading] = useState(true);
   const [registrosAllNos, setRegistrosAllnos] = useState<RegistrosUmNo[]>([]);
   const [initialDataLoaded, setInitialDataLoaded] = useState(false);
   //const [onlyTemp, setOnlyTemp] = useState<RegistrosUmaVariavel[]>([]);
@@ -37,38 +29,27 @@ function DashBoard() {
   useEffect(() => {
     const fetchData = async () => {
       const data = await nosGetData();
-
+      //console.log("data", data);
       setRegistrosAllnos(data);
       setInitialDataLoaded(true);
+      //setRegistrosAllnos(data);
+      // const tempData = await getOnlyTemp(data);
+      // setOnlyTemp(tempData);
+      // console.log("tempData", tempData);
+
+      //console.log("ok");
     };
     fetchData();
+    //console.log("len", registrosAllNos.temperatura.length);
+
+    //.catch(console.error);
   }, []);
+
   useEffect(() => {
     if (initialDataLoaded) {
       nosObserver(registrosAllNos, setRegistrosAllnos);
     }
   }, [initialDataLoaded]);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     setIsLoading(true);
-  //     const data = await nosGetDataPorSensor();
-  //     console.log("data", data);
-  //     setRegistrosAllnos(data);
-  //     setIsLoading(false);
-
-  //     //setRegistrosAllnos(data);
-  //     // const tempData = await getOnlyTemp(data);
-  //     // setOnlyTemp(tempData);
-  //     // console.log("tempData", tempData);
-
-  //     //console.log("ok");
-  //   };
-  //   fetchData();
-  //   //console.log("len", registrosAllNos.temperatura.length);
-
-  //   //.catch(console.error);
-  // }, []);
 
   // useEffect(() => {
   //   console.log("registrosAllNos mudou");
@@ -121,13 +102,9 @@ function DashBoard() {
 
   // getData();
   // fetchData();
-  // console.log("dashboard", registrosAllNos);
-  // console.log("temp", registrosAllNos.temperatura);
+  //console.log("dashboard", registrosAllNos);
   //console.log(registrosAllNos.length);
 
-  // if (isLoading) {
-  //   return <h1>loading...</h1>;
-  // }
   const getDatasetsUmaVariavel = (
     registrosAllNos: RegistrosUmNo[],
     sensor: "temperatura" | "luminosidade" | "amonia" | "umidade"
@@ -145,35 +122,40 @@ function DashBoard() {
   return (
     <div>
       <h1>This is the DashBoard page</h1>
-
+      {/* {isLoading && <h2>loading...</h2>} */}
       <div className="charts-grid">
-        <Paper elevation={3} className="multi-line-chart">
-          <MultipleLineChart
-            title={"temperatura"}
-            nos={getDatasetsUmaVariavel(registrosAllNos, "temperatura")}
-          />
+        <Paper elevation={3}>
+          <div className="multi-line-chart">
+            <MultipleLineChart
+              title={"temperatura"}
+              nos={registrosAllNos.map((no) => {
+                return {
+                  label: no.noId.toString(),
+                  data: no.registros.map((registro) => {
+                    return registro.temperatura;
+                  }),
+                };
+              })}
+            />
+          </div>
         </Paper>
-
-        <Paper elevation={3} className="multi-line-chart">
-          <MultipleLineChart
-            title={"umidade"}
-            nos={getDatasetsUmaVariavel(registrosAllNos, "umidade")}
-          />
+        <Paper elevation={3}>
+          <div style={{ width: 500 }}>
+            <MultipleLineChart
+              title={"umidade"}
+              nos={getDatasetsUmaVariavel(registrosAllNos, "umidade")}
+            />
+          </div>
         </Paper>
-
-        <Paper elevation={3} className="multi-line-chart">
-          <MultipleLineChart
-            title={"amonia"}
-            nos={getDatasetsUmaVariavel(registrosAllNos, "amonia")}
-          />
-        </Paper>
-
-        <Paper elevation={3} className="multi-line-chart">
-          <MultipleLineChart
+        <div style={{ width: 500 }}>
+          {/* <MultipleLineChart title={"amonia"} nos={registrosAllNos?.amonia} /> */}
+        </div>
+        <div style={{ width: 500 }}>
+          {/* <MultipleLineChart
             title={"luminosidade"}
-            nos={getDatasetsUmaVariavel(registrosAllNos, "luminosidade")}
-          />
-        </Paper>
+            nos={registrosAllNos?.luminosidade}
+          /> */}
+        </div>
       </div>
     </div>
   );

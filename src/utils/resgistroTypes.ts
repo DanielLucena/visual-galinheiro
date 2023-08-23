@@ -20,10 +20,15 @@ export type RegistroType = {
     data: number[];
   };
 
+  export type RegistrosTimestamp = {
+    label:string;
+    data: string[];
+  }
 
-export type ResgistrosPorSensor ={
+export type RegistrosPorSensor ={
    temperatura:RegistrosUmaVariavel[];
     umidade:RegistrosUmaVariavel[];
     amonia:RegistrosUmaVariavel[];
     luminosidade:RegistrosUmaVariavel[];
+    timestamp:RegistrosTimestamp[];
 }

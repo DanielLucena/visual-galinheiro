@@ -8,17 +8,33 @@
 }
 
 .multi-line-chart{
-    width: 100%;
+    width: 40%;
+    padding: 10px;
+    height: 350px;
+    margin: 10px;
+    /* min-width: 300px; */
     
+}
+@media only screen and (max-width:600px) {
+    .multi-line-chart{
+        width: 90%;
+    
+    height: 300px;
+        
+    }
 }
 
 .charts-grid{
-    display: grid;
-    grid-template-columns: 50% 50% ;
-    gap: 5px;
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    /* gap: 5px; */
 }
-.charts-grid div{
-    padding: 0px;
-    margin: 20px;
+.multi-line-chart span{
+    
+    width: 100%;
+    padding: 10px;
+    height: 100%;
    
 }

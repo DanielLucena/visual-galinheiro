@@ -1,7 +1,7 @@
 import { DocumentData, Query, collection, getDocs, limit, orderBy, query, where } from "firebase/firestore";
 import { db } from "./firebase";
 //import {nosRatreados} from './staticConfig';
-import { RegistroType, ResgistrosPorSensor } from "../utils/resgistroTypes";
+import { RegistroType, RegistrosTimestamp, RegistrosPorSensor } from "../utils/resgistroTypes";
 import { RegistrosUmaVariavel } from "./resgistroTypes"
 const NosRef = collection(db, "No");
 
@@ -15,11 +15,12 @@ const NosRef = collection(db, "No");
 export const nosGetDataPorSensor = async () => {
     //const AllNosRegistros: RegistrosUmNo[] = [];
     // const registroPorSensores:ResgistrosPorSensor[]=[{sensor:'temperatura',no:[]},{sensor:'umidade',no:[]},{sensor:'amonia',no:[]},{sensor:'luminosidade',no:[]}]
-    const registroPorSensores:ResgistrosPorSensor={
+    const registroPorSensores:RegistrosPorSensor={
         temperatura : [],
          umidade: [],
          amonia: [],
          luminosidade: [],
+         timestamp:[]
      }
     const nosRatreados:number[]=[1,2,3,4,5];////
     for(const no of nosRatreados){
@@ -34,6 +35,7 @@ export const nosGetDataPorSensor = async () => {
               const umidades:RegistrosUmaVariavel={label:no.toString(),data:[]}
               const luminosidades:RegistrosUmaVariavel={label:no.toString(),data:[]}
               const amonias:RegistrosUmaVariavel={label:no.toString(),data:[]}
+              const timestamps:RegistrosTimestamp={label:no.toString(),data:[]}
               const res = await getDocs(querie);
               res.forEach( (doc) =>{
                 const temp = doc.data() as unknown;
@@ -51,6 +53,7 @@ export const nosGetDataPorSensor = async () => {
                 umidades.data.push(data.umidade)
                 luminosidades.data.push(data.luminosidade)
                 amonias.data.push(data.amonia)
+                timestamps.data.push(data.timestamp)
               });
             //   AllNosRegistros.push({noId:no,
             //     registros:registros.reverse()})
@@ -58,6 +61,7 @@ export const nosGetDataPorSensor = async () => {
             registroPorSensores.umidade.push(umidades);
             registroPorSensores.amonia.push(amonias);
             registroPorSensores.luminosidade.push(luminosidades);
+            registroPorSensores.timestamp.push(timestamps);
             console.log(`fun ${no}`,registroPorSensores);
 
     

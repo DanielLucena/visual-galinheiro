@@ -20,21 +20,23 @@ export type RegistrosUmNo={
 //       );
 // })
 
-export async function getAllNosData(callback:React.Dispatch<React.SetStateAction<RegistrosUmNo[]>>){
-    let AllNosRegistros: Array<RegistrosUmNo> = [];
+export async function nosObserver(state:RegistrosUmNo[],callback:React.Dispatch<React.SetStateAction<RegistrosUmNo[]>>){
+    //let AllNosRegistros: Array<RegistrosUmNo> = [];
     let unsubListenerFunctions: Unsubscribe[] = [];
-    nosRatreados.forEach((no)=>{
+    
+    for(const no of nosRatreados){
+    //nosRatreados.forEach((no)=>{
         const querie: Query<DocumentData> =  query(
                 NosRef,
                 where("id", "==", no),
                 orderBy("timestamp", "desc"),
-                limit(5)
+                limit(1)
               );
         
     const unsubscribre = onSnapshot(
             querie as Query<QuerySnapshot<DocumentData>>,
             (snapshot) => {
-              const registros: RegistroType[] = [];
+              //const registros: RegistroType[] = [];
               snapshot.docs.forEach((doc) => {
                 const temp = doc.data() as unknown;
                 const data = temp as RegistroType;
@@ -46,18 +48,45 @@ export async function getAllNosData(callback:React.Dispatch<React.SetStateAction
                   umidade: data.umidade,
                   timestamp: data.timestamp,
                 };
-                registros.push(registro);
+              //   callback(state.map((no) =>{
+              //     if(registro.id === no.id && registro.timestamp !== no.timestamp){
+              //         console.log("update")
+              //         return registro
+                      
+              //     }
+              //         return no
+              // }
+              // ) );
+                callback(state.map((no)=>{
+                  if(registro.id === no.noId && registro.timestamp !== no.registros[no.registros.length - 1].timestamp){
+                    console.log("update");
+                    console.log("state no registros",no.registros);
+                    const newRegistros = no.registros
+                    console.log("newRegistros",newRegistros);
+                    newRegistros.shift();
+                    console.log("newRegistros.shift()",newRegistros);
+                    newRegistros.push(registro)
+                    console.log("newRegistros.push(registro)",newRegistros);
+                    return {...no,
+                      registros: newRegistros
+                    }
+                    
+                  }
+                  return no;
+                }));
+               // registros.push(registro);
               });
-              AllNosRegistros.push({noId:no,
-            registros:registros})
+            //   AllNosRegistros.push({noId:no,
+            // registros:registros})
             }
           );
           unsubListenerFunctions.push(unsubscribre)
-    })
+    }
+    //)
     //  console.log("fun");
     //  console.log(typeof AllNosRegistros);
     //  console.log(AllNosRegistros.length);
     
-    await callback(AllNosRegistros);
+    //await callback(AllNosRegistros);
     
 }

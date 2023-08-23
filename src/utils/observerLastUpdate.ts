@@ -32,7 +32,7 @@ export const observerLastUpdate =  (state: RegistroType[],callback:React.Dispatc
                       timestamp: data.timestamp,
                     };
                     callback(state.map((no) =>{
-                        if(registro.id === no.id){
+                        if(registro.id === no.id && registro.timestamp !== no.timestamp){
                             console.log("update")
                             return registro
                             

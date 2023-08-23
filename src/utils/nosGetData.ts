@@ -16,7 +16,8 @@ export type RegistrosUmNo={
 export const nosGetData = async () => {
     const AllNosRegistros: RegistrosUmNo[] = [];
     
-    nosRatreados.forEach(async (no)=>{
+    for(const no of nosRatreados){
+    // nosRatreados.forEach(async (no)=>{
         const querie: Query<DocumentData> =  query(
                 NosRef,
                 where("id", "==", no),
@@ -41,7 +42,8 @@ export const nosGetData = async () => {
               AllNosRegistros.push({noId:no,
                 registros:registros.reverse()})
     
-});
+}
+//);
     // console.log(AllNosRegistros);
     // console.log(AllNosRegistros.length)
     return AllNosRegistros;

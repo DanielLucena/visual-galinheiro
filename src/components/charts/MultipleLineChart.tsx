@@ -31,7 +31,7 @@ export type multipleLineChartProps = {
   title: string;
 };
 export default function MultipleLineChart(props: multipleLineChartProps) {
-  console.log("props", props);
+  //console.log("props", props);
   const [state, setState] = useState<{
     labels: string[];
     datasets: RegistrosUmaVariavel[];
@@ -51,14 +51,14 @@ export default function MultipleLineChart(props: multipleLineChartProps) {
       datasets: props.nos,
     });
   }, [props.nos]);
-  console.log("chart", props);
+  //console.log("chart", props);
 
   var labels: string[] = [];
 
   for (let i = 1; i <= props?.nos[0]?.data.length; i++) {
     labels.push(i.toString());
   }
-  console.log("labels", labels);
+  //console.log("labels", labels);
 
   var data = {
     labels: labels,
@@ -165,15 +165,21 @@ export default function MultipleLineChart(props: multipleLineChartProps) {
         text: props.title,
       },
     },
+    maintainAspectRatio: false,
+    scale: {
+      y: {
+        beginAtZero: true,
+      },
+    },
   };
-  console.log("state", state);
+  //console.log("state", state);
   return (
-    <div className="chat-box">
+    <>
       {state !== null ? (
         <Line options={options} data={data} />
       ) : (
         <h1>carregando</h1>
       )}
-    </div>
+    </>
   );
 }
