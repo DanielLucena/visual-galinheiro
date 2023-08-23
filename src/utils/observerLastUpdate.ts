@@ -19,6 +19,7 @@ export const observerLastUpdate =  (callback:React.Dispatch<React.SetStateAction
               const unsubscribre = onSnapshot(
                 querie as Query<QuerySnapshot<DocumentData>>,
                 (snapshot) => {
+                  console.log("inside onSnapshot no:", no)
                     snapshot.docs.forEach((doc) => {
                     const temp = doc.data() as unknown;
                     const data = temp as RegistroType;

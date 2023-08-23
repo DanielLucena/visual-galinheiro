@@ -6,6 +6,7 @@ import "./dashboard.css";
 import Paper from "@mui/material/Paper";
 import { nosGetData } from "../../utils/nosGetData";
 import { nosObserver } from "../../utils/nosObserver";
+import StatusBar from "../../components/StatusBar/StatusBar";
 
 // export type RegistroType = {
 //   id: number;
@@ -145,7 +146,7 @@ function DashBoard() {
   return (
     <div>
       <h1>This is the DashBoard page</h1>
-
+      <StatusBar />
       <div className="charts-grid">
         <Paper elevation={3} className="multi-line-chart">
           <MultipleLineChart

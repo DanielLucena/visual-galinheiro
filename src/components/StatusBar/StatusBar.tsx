@@ -4,7 +4,8 @@ import { getLastUpdate } from "../../utils/getLastUpdate";
 import { observerLastUpdate } from "../../utils/observerLastUpdate";
 import "./statusBar.css";
 import CircleIcon from "@mui/icons-material/Circle";
-import { green, pink, red, yellow } from "@mui/material/colors";
+import { green, red, yellow } from "@mui/material/colors";
+import { Paper, Typography } from "@mui/material";
 
 export default function StatusBar() {
   const [nos, setNos] = useState<RegistroType[]>([]);
@@ -64,35 +65,67 @@ export default function StatusBar() {
   return (
     <>
       <h1>bar</h1>
-      <p>time now: {now.toString()}</p>
+      <Typography>time now: {now.toString()}</Typography>
       {nos.length > 0 && (
         <div className="bar">
           {nos.map((no) => {
             const horario = new Date(no.timestamp);
             //const now = new Date();
             return (
-              <div key={no.id}>
-                <h1>{no.id}</h1>
+              <Paper elevation={3} key={no.id} className="no-display">
+                <Typography variant="h5">{"Hub" + no.id.toString()}</Typography>
 
-                <p>
-                  {/* {horario.toLocaleString("pt-BR", {
-                    timeZone: "America/Sao_Paulo",
-                  })} */}
+                {/* <Typography>
+                  
                   {horario.toString()}
-                </p>
-                <p>{now.toString()}</p>
-                <p>
+                </Typography>
+                <Typography>{now.toString()}</Typography> */}
+
+                <div className="connection-line">
                   {(() => {
-                    if (now.valueOf() - horario.valueOf() < 50000) {
-                      return <CircleIcon sx={{ color: green[500] }} />;
+                    if (now.valueOf() - horario.valueOf() < 30000) {
+                      return (
+                        <>
+                          <CircleIcon sx={{ color: green["A700"] }} />
+                          <Typography>Online</Typography>
+                        </>
+                      );
                     } else if (now.valueOf() - horario.valueOf() < 120000) {
-                      return <CircleIcon sx={{ color: yellow[500] }} />;
+                      return (
+                        <>
+                          <CircleIcon sx={{ color: yellow["A700"] }} />
+                          <Typography>Em atraso</Typography>
+                        </>
+                      );
                     } else {
-                      return <CircleIcon sx={{ color: red[500] }} />;
+                      return (
+                        <>
+                          <CircleIcon sx={{ color: red["A700"] }} />
+                          <Typography>Offline</Typography>
+                        </>
+                      );
                     }
                   })()}
-                </p>
-              </div>
+                </div>
+                {/* <Typography>atualizado: </Typography> */}
+                {horario.getDate() === now.getDate() ? (
+                  <>
+                    <Typography>
+                      {horario.toTimeString().split(" ", 1) + ","}
+                    </Typography>
+                    <Typography>{"hoje"}</Typography>
+                  </>
+                ) : (
+                  <>
+                    <Typography>
+                      {horario.toTimeString().split(" ", 1) + ","}
+                    </Typography>
+                    <Typography>
+                      {horario.toLocaleDateString().substring(0, 5)}
+                    </Typography>
+                  </>
+                )}
+              </Paper>
             );
           })}
         </div>
