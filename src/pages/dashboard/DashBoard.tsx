@@ -7,6 +7,7 @@ import Paper from "@mui/material/Paper";
 import { nosGetData } from "../../utils/nosGetData";
 import { nosObserver } from "../../utils/nosObserver";
 import StatusBar from "../../components/StatusBar/StatusBar";
+import { Container } from "@mui/material";
 
 // export type RegistroType = {
 //   id: number;
@@ -142,41 +143,62 @@ function DashBoard() {
       };
     });
   };
+  const getMinutesOfTimestamps = (registrosAllNos: RegistrosUmNo[]) => {
+    return registrosAllNos.map((no) => {
+      return {
+        label: no.noId.toString(),
+        data: no.registros.map((registro) => {
+          return new Date(registro.timestamp).getMinutes();
+        }),
+      };
+    });
+  };
 
   return (
-    <div>
+    <Container maxWidth="lg">
       <h1>This is the DashBoard page</h1>
-      <StatusBar />
-      <div className="charts-grid">
-        <Paper elevation={3} className="multi-line-chart">
-          <MultipleLineChart
-            title={"temperatura"}
-            nos={getDatasetsUmaVariavel(registrosAllNos, "temperatura")}
-          />
-        </Paper>
-
-        <Paper elevation={3} className="multi-line-chart">
-          <MultipleLineChart
-            title={"umidade"}
-            nos={getDatasetsUmaVariavel(registrosAllNos, "umidade")}
-          />
-        </Paper>
-
-        <Paper elevation={3} className="multi-line-chart">
-          <MultipleLineChart
-            title={"amonia"}
-            nos={getDatasetsUmaVariavel(registrosAllNos, "amonia")}
-          />
-        </Paper>
-
-        <Paper elevation={3} className="multi-line-chart">
-          <MultipleLineChart
-            title={"luminosidade"}
-            nos={getDatasetsUmaVariavel(registrosAllNos, "luminosidade")}
-          />
-        </Paper>
+      <div className="content-box">
+        <StatusBar />
       </div>
-    </div>
+
+      <div className="content-box">
+        <div className="charts-grid">
+          <Paper elevation={3} className="multi-line-chart">
+            <MultipleLineChart
+              title={"temperatura"}
+              nos={getDatasetsUmaVariavel(registrosAllNos, "temperatura")}
+            />
+          </Paper>
+
+          <Paper elevation={3} className="multi-line-chart">
+            <MultipleLineChart
+              title={"umidade"}
+              nos={getDatasetsUmaVariavel(registrosAllNos, "umidade")}
+            />
+          </Paper>
+
+          <Paper elevation={3} className="multi-line-chart">
+            <MultipleLineChart
+              title={"amonia"}
+              nos={getDatasetsUmaVariavel(registrosAllNos, "amonia")}
+            />
+          </Paper>
+
+          <Paper elevation={3} className="multi-line-chart">
+            <MultipleLineChart
+              title={"luminosidade"}
+              nos={getDatasetsUmaVariavel(registrosAllNos, "luminosidade")}
+            />
+          </Paper>
+          <Paper elevation={3} className="multi-line-chart">
+            <MultipleLineChart
+              title={"timestamps"}
+              nos={getMinutesOfTimestamps(registrosAllNos)}
+            />
+          </Paper>
+        </div>
+      </div>
+    </Container>
   );
 }
 

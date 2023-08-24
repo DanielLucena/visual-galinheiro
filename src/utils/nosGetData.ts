@@ -22,7 +22,7 @@ export const nosGetData = async () => {
                 NosRef,
                 where("id", "==", no),
                 orderBy("timestamp", "desc"),
-                limit(5)
+                limit(60)
               );
               const registros: RegistroType[] = [];
               const res = await getDocs(querie);

@@ -6,6 +6,9 @@ import "./statusBar.css";
 import CircleIcon from "@mui/icons-material/Circle";
 import { green, red, yellow } from "@mui/material/colors";
 import { Paper, Typography } from "@mui/material";
+import { Skeleton } from "@mui/material";
+import { Stack } from "@mui/material";
+import { nosRatreados } from "../../utils/staticConfig";
 
 export default function StatusBar() {
   const [nos, setNos] = useState<RegistroType[]>([]);
@@ -61,10 +64,45 @@ export default function StatusBar() {
 
   // console.log(new Date());
   // console.log(new Date());
+  if (!initialDataLoaded) {
+    return (
+      <>
+        <Typography>time now: {now.toString()}</Typography>
+        <div className="bar">
+          {nosRatreados.map((no) => {
+            return (
+              <Paper elevation={3} key={no} className="no-display">
+                <Typography variant="h5">
+                  <Skeleton />
+                </Typography>
+
+                <div className="connection-line">
+                  <>
+                    <Skeleton variant="circular" height={"1em"} width={"1em"} />
+
+                    <Skeleton width="80%" />
+                  </>
+                </div>
+
+                <>
+                  <Typography>
+                    <Skeleton />
+                  </Typography>
+                  <Typography>
+                    <Skeleton />
+                  </Typography>
+                </>
+              </Paper>
+            );
+          })}
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
-      <h1>bar</h1>
+      {/* <h1>bar</h1> */}
       <Typography>time now: {now.toString()}</Typography>
       {nos.length > 0 && (
         <div className="bar">
@@ -94,7 +132,7 @@ export default function StatusBar() {
                       return (
                         <>
                           <CircleIcon sx={{ color: yellow["A700"] }} />
-                          <Typography>Em atraso</Typography>
+                          <Typography>Atrasado</Typography>
                         </>
                       );
                     } else {

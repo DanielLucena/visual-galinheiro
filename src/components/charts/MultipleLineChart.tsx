@@ -68,6 +68,7 @@ export default function MultipleLineChart(props: multipleLineChartProps) {
       };
     }),
   };
+  console.log(`${props.title} datasets lenght`, data.datasets.length);
 
   //const [statekey, setStatekey] = useState(0);
 
@@ -148,14 +149,18 @@ export default function MultipleLineChart(props: multipleLineChartProps) {
 
   const options = {
     responsive: true,
-
-    events: [],
+    // events: [],
     animation: {
       duration: 0,
     },
-
     responsiveAnimationDuration: 0,
+
     plugins: {
+      // tooltip: {
+      //   callbacks: {
+      //     label: (item: any) => `${item.label} ºc`,
+      //   },
+      // },
       colors: { forceOverride: true },
       legend: {
         position: "top" as const,
@@ -169,6 +174,18 @@ export default function MultipleLineChart(props: multipleLineChartProps) {
     scale: {
       y: {
         beginAtZero: true,
+      },
+      x: {
+        //type: "time",
+        ticks: {
+          //autoSkip: true,
+          maxTicksLimit: 10,
+        },
+      },
+    },
+    elements: {
+      point: {
+        radius: 1.5,
       },
     },
   };
