@@ -7,7 +7,6 @@ import CircleIcon from "@mui/icons-material/Circle";
 import { green, red, yellow } from "@mui/material/colors";
 import { Paper, Typography } from "@mui/material";
 import { Skeleton } from "@mui/material";
-import { Stack } from "@mui/material";
 import { nosRatreados } from "../../utils/staticConfig";
 
 export default function StatusBar() {
