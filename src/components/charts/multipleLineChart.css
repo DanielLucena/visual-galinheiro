@@ -1,5 +1,19 @@
-/* .chart-box{
-    width: 80wv;
-    min-height: 200px;
+.chart-box{
+    width: 90%;
+    height: 90%;
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+    /* align-self: center ; 
+    justify-self: center; */
+    /* margin: 10px; */
+    
    
-} */
+}
+.chart-box div{
+    height: 100%;
+    width: 100%;
+    /* display: flex; */
+    /* align-items: center; */
+    
+}

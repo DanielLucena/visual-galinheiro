@@ -13,6 +13,9 @@
     height: 350px;
     margin-block: 10px;
     /* min-width: 300px; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
     
 }
 @media only screen and (max-width:600px) {
@@ -32,13 +35,13 @@
     
     /* gap: 25px; */
 }
-.multi-line-chart span{
+/* .multi-line-chart span{
     
     width: 100%;
     padding: 10px;
     height: 100%;
    
-}
+} */
 
 /* .content-box{
     width: 100% ;
