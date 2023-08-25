@@ -34,7 +34,11 @@ export default function Galinheiro(props: GalinheiroProps) {
       s += "#" + hexColor;
       console.log(element.temp + " " + s);
       return (
-        <div className="zona" style={{ backgroundColor: s, height: alturacss }}>
+        <div
+          className="zona"
+          key={element.zona}
+          style={{ backgroundColor: s, height: alturacss }}
+        >
           <p> {element.temp + "°C"}</p>
         </div>
       );

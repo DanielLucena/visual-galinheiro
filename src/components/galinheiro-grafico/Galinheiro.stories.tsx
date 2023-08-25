@@ -27,14 +27,14 @@ const db: Registro = {
       amon: 10,
     },
     {
-      zona: 3,
+      zona: 4,
       temp: 25,
       umid: 90,
       lumi: 40,
       amon: 10,
     },
     {
-      zona: 3,
+      zona: 5,
       temp: 28,
       umid: 90,
       lumi: 40,
