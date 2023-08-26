@@ -1,0 +1,28 @@
+.page{
+    height:80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.box{
+    height: 120px;
+    width: 592px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center;
+    align-items: center; */
+    gap:10px
+}
+.button{
+    display: flex;
+    align-items: center;
+    height: 40px;
+}
+
+@media only screen and (max-width:600px) {
+    .box{
+        width:286px
+    }
+}

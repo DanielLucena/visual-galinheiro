@@ -3,6 +3,10 @@ import { useTable, Column } from "react-table";
 import { format } from "date-fns";
 import DatePicker from "react-datepicker";
 import "./dataTable.css";
+import { useNavigate } from "react-router-dom";
+import { auth } from "../../utils/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useEffect } from "react";
 
 interface DataItem {
   id: number;
@@ -14,6 +18,17 @@ interface DataItem {
 }
 
 const DataTable: React.FC = () => {
+  let navigate = useNavigate();
+  const [user, loading] = useAuthState(auth);
+  useEffect(() => {
+    const fetchData = async () => {
+      if (loading) return;
+      if (!user) return navigate("/login");
+    };
+
+    fetchData();
+  }, [user, loading]);
+
   const [data] = useState<DataItem[]>([
     {
       id: 1,

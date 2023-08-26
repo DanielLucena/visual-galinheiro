@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 
@@ -22,10 +23,20 @@ import HomeIcon from "@mui/icons-material/Home";
 import TocIcon from "@mui/icons-material/Toc";
 import WidgetsIcon from "@mui/icons-material/Widgets";
 import { useNavigate } from "react-router-dom";
+import { auth } from "../../utils/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import Avatar from "@mui/material/Avatar";
+import Tooltip from "@mui/material/Tooltip";
+import { Menu, MenuItem } from "@mui/material";
+import Logout from "@mui/icons-material/Logout";
+import RegistrosContext from "../../context/registrosContext";
+import { useContext } from "react";
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
 export default function ModalSideBar() {
+  const [user, _loading] = useAuthState(auth);
+  const { userLogout } = useContext(RegistrosContext);
   const navigate = useNavigate();
   const [state, setState] = React.useState({
     top: false,
@@ -33,6 +44,14 @@ export default function ModalSideBar() {
     bottom: false,
     right: false,
   });
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
@@ -126,7 +145,53 @@ export default function ModalSideBar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Hub de Dados
           </Typography>
-          {/* <Button color="inherit">Login</Button> */}
+          {user && (
+            <>
+              <Tooltip title="Conta">
+                <IconButton
+                  onClick={handleClick}
+                  size="small"
+                  sx={{ ml: 2 }}
+                  aria-controls={open ? "account-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? "true" : undefined}
+                >
+                  <Avatar src={user.photoURL!} alt="" />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                anchorEl={anchorEl}
+                id="account-menu"
+                open={open}
+                onClose={handleClose}
+                transformOrigin={{ horizontal: "right", vertical: "top" }}
+                anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+              >
+                {/* <Typography variant="h6">Conta</Typography>
+                <Typography variant="body1">{user.displayName}</Typography>
+
+                <Divider /> */}
+
+                <MenuItem
+                  onClick={() => {
+                    handleClose();
+                    auth.signOut();
+                    userLogout();
+                  }}
+                >
+                  <ListItemIcon>
+                    <Logout fontSize="small" />
+                  </ListItemIcon>
+                  Logout
+                </MenuItem>
+              </Menu>
+              {/* //{" "}
+              <Link to={"/profile"}>
+                // <Avatar src={user.photoURL!} alt="" />
+                //{" "}
+              </Link> */}
+            </>
+          )}
         </Toolbar>
       </AppBar>
     </Box>

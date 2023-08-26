@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
-import { RegistroType } from "../../utils/resgistroTypes";
+import { useContext, useEffect, useState } from "react";
 import { getLastUpdate } from "../../utils/getLastUpdate";
-import { observerLastUpdate } from "../../utils/observerLastUpdate";
 import "./statusBar.css";
 import CircleIcon from "@mui/icons-material/Circle";
 import { green, red, yellow } from "@mui/material/colors";
@@ -9,38 +7,51 @@ import { Paper, Typography } from "@mui/material";
 import { Skeleton } from "@mui/material";
 import { nosRatreados } from "../../utils/staticConfig";
 
+import RegistrosContext from "../../context/registrosContext";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../utils/firebase";
+
 export default function StatusBar() {
-  const [nos, setNos] = useState<RegistroType[]>([]);
-  const [initialDataLoaded, setInitialDataLoaded] = useState(false);
-  const [newRegistro, setNewRegistro] = useState<RegistroType>({
-    id: 0,
-    temperatura: 0,
-    umidade: 0,
-    amonia: 0,
-    luminosidade: 0,
-    timestamp: "",
-  });
+  const [user, loading] = useAuthState(auth);
+  // const navigate = useNavigate();
+  const {
+    nosLastUpdate,
+    setNosLastUpdate,
+    initialDataLoaded,
+    setInitialDataLoaded,
+  } = useContext(RegistrosContext);
+  //const [nos, setNos] = useState<RegistroType[]>([]);
+  //const [initialDataLoaded, setInitialDataLoaded] = useState(false);
+  // const [newRegistro, setNewRegistro] = useState<RegistroType>({
+  //   id: 0,
+  //   temperatura: 0,
+  //   umidade: 0,
+  //   amonia: 0,
+  //   luminosidade: 0,
+  //   timestamp: "",
+  // });
   const [now, setNow] = useState(new Date());
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await getLastUpdate();
-      console.log("get", data);
-      setNos(data);
+      setNosLastUpdate(data);
       setInitialDataLoaded(true);
     };
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    if (initialDataLoaded) {
-      observerLastUpdate(setNewRegistro);
+    if (!initialDataLoaded && user) {
+      fetchData();
     }
-  }, [initialDataLoaded]);
+  }, [user, loading]);
 
-  useEffect(() => {
-    atualizarNo(newRegistro);
-  }, [newRegistro]);
+  // useEffect(() => {
+  //   if (initialDataLoaded) {
+  //     observerLastUpdate(setNewRegistro);
+  //   }
+  // }, [initialDataLoaded]);
+
+  // useEffect(() => {
+  //   atualizarNo(newRegistro);
+  // }, [newRegistro]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -49,24 +60,39 @@ export default function StatusBar() {
     return () => clearInterval(interval);
   }, []);
 
-  const atualizarNo = (registro: RegistroType) => {
-    setNos(
-      nos.map((no) => {
-        if (registro.id === no.id && registro.timestamp !== no.timestamp) {
-          console.log("update no:", no.id);
-          return registro;
-        }
-        return no;
-      })
-    );
+  // const atualizarNo = (registro: RegistroType) => {
+  //   setNosLastUpdate(
+  //     nosLastUpdate.map((no) => {
+  //       if (registro.id === no.id && registro.timestamp !== no.timestamp) {
+  //         console.log("update no:", no.id);
+  //         return registro;
+  //       }
+  //       return no;
+  //     })
+  //   );
+  // };
+
+  const transformHora = (data: Date) => {
+    let hora = (data.getHours() < 10 ? "0" : "") + data.getHours();
+    let minuto = (data.getMinutes() < 10 ? "0" : "") + data.getMinutes();
+    let segundo = (data.getSeconds() < 10 ? "0" : "") + data.getSeconds();
+    return hora + ":" + minuto + ":" + segundo;
   };
 
+  const transformData = (data: Date) => {
+    let dia = (data.getDate() < 10 ? "0" : "") + data.getDate();
+    let mes = (data.getMonth() < 10 ? "0" : "") + data.getMonth();
+    let ano = (data.getFullYear() < 10 ? "0" : "") + data.getFullYear();
+    return dia + "/" + mes + "/" + ano;
+  };
   // console.log(new Date());
   // console.log(new Date());
   if (!initialDataLoaded) {
     return (
       <>
-        <Typography>time now: {now.toString()}</Typography>
+        <Typography>
+          {transformHora(now) + ", " + transformData(now)}
+        </Typography>
         <div className="bar">
           {nosRatreados.map((no) => {
             return (
@@ -102,10 +128,12 @@ export default function StatusBar() {
   return (
     <>
       {/* <h1>bar</h1> */}
-      <Typography>time now: {now.toString()}</Typography>
-      {nos.length > 0 && (
+      <Typography variant="body1">
+        {transformHora(now) + ", " + transformData(now)}
+      </Typography>
+      {nosLastUpdate.length > 0 && (
         <div className="bar">
-          {nos.map((no) => {
+          {nosLastUpdate.map((no) => {
             const horario = new Date(no.timestamp);
             //const now = new Date();
             return (
@@ -120,7 +148,7 @@ export default function StatusBar() {
 
                 <div className="connection-line">
                   {(() => {
-                    if (now.valueOf() - horario.valueOf() < 30000) {
+                    if (now.valueOf() - horario.valueOf() < 60000) {
                       return (
                         <>
                           <CircleIcon sx={{ color: green["A700"] }} />
@@ -145,21 +173,16 @@ export default function StatusBar() {
                   })()}
                 </div>
                 {/* <Typography>atualizado: </Typography> */}
-                {horario.getDate() === now.getDate() ? (
+                {horario.getDate() === now.getDate() &&
+                horario.getMonth() === now.getMonth() ? (
                   <>
-                    <Typography>
-                      {horario.toTimeString().split(" ", 1) + ","}
-                    </Typography>
+                    <Typography>{transformHora(horario) + ", "}</Typography>
                     <Typography>{"hoje"}</Typography>
                   </>
                 ) : (
                   <>
-                    <Typography>
-                      {horario.toTimeString().split(" ", 1) + ","}
-                    </Typography>
-                    <Typography>
-                      {horario.toLocaleDateString().substring(0, 5)}
-                    </Typography>
+                    <Typography>{transformHora(horario) + ", "}</Typography>
+                    <Typography>{transformData(horario)}</Typography>
                   </>
                 )}
               </Paper>

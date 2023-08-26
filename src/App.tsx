@@ -9,20 +9,26 @@ import { Analytics } from "@vercel/analytics/react";
 import DataTable from "./pages/Registros/Registros";
 
 import Tabela from "./pages/tabela/Tabela";
-import ModalSideBar from "./components/SideBar/ModalSideBar";
+import Login from "./pages/Login/Login";
+import { Layout } from "./components/Layout/Layout";
+import { RegistrosProvider } from "./context/registrosContext";
 
 function App() {
   return (
     <>
       <div className="App">
-        <ModalSideBar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="dashboard" element={<DashBoard />} />
-          <Route path="monitoring" element={<Monitoring />} />
-          <Route path="tabela" element={<Tabela />} />
-          <Route path="data-table" element={<DataTable />} />
-        </Routes>
+        <RegistrosProvider>
+          <Layout>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="dashboard" element={<DashBoard />} />
+              <Route path="monitoring" element={<Monitoring />} />
+              <Route path="tabela" element={<Tabela />} />
+              <Route path="data-table" element={<DataTable />} />
+              <Route path="login" element={<Login />} />
+            </Routes>
+          </Layout>
+        </RegistrosProvider>
       </div>
       <Analytics />
     </>

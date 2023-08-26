@@ -7,6 +7,7 @@ const NosRef = collection(db, "No");
 
 export const getLastUpdate = async () => {
     //let unsubListenerFunctions: Unsubscribe[] = [];
+    console.log("getData simples")
     let AllNosRegistros: RegistroType[] = [];
     for(const no of nosRatreados){
         const querie: Query<DocumentData> =  query(
@@ -17,6 +18,7 @@ export const getLastUpdate = async () => {
               );
 
                 const res = await getDocs(querie);
+                console.log("docs read:", res.docs.length);
                 res.forEach((doc) => {
                     const temp = doc.data() as unknown;
                     const data = temp as RegistroType;

@@ -1,13 +1,16 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import MultipleLineChart from "../../components/charts/MultipleLineChart";
 import { RegistrosUmNo } from "../../utils/resgistroTypes";
 import "./dashboard.css";
 
 import Paper from "@mui/material/Paper";
 import { nosGetData } from "../../utils/nosGetData";
-import { nosObserver } from "../../utils/nosObserver";
 import StatusBar from "../../components/StatusBar/StatusBar";
-import { Container } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../utils/firebase";
+import { useNavigate } from "react-router-dom";
+import RegistrosContext from "../../context/registrosContext";
 
 // export type RegistroType = {
 //   id: number;
@@ -23,6 +26,13 @@ import { Container } from "@mui/material";
 // };
 
 function DashBoard() {
+  let navigate = useNavigate();
+  const {
+    registrosAllNos,
+    setRegistrosAllNos,
+    bigDataLoaded,
+    setBigDataLoaded,
+  } = useContext(RegistrosContext);
   // const [registrosAllNos, setRegistrosAllnos] = useState<RegistrosPorSensor>({
   //   temperatura: [],
   //   umidade: [],
@@ -31,25 +41,30 @@ function DashBoard() {
   //   timestamp: [],
   // });
   // const [isLoading, setIsLoading] = useState(true);
-  const [registrosAllNos, setRegistrosAllnos] = useState<RegistrosUmNo[]>([]);
-  const [initialDataLoaded, setInitialDataLoaded] = useState(false);
+  //const [registrosAllNos, setRegistrosAllnos] = useState<RegistrosUmNo[]>([]);
+  //const [initialDataLoaded, setInitialDataLoaded] = useState(false);
+  const [user, loading] = useAuthState(auth);
   //const [onlyTemp, setOnlyTemp] = useState<RegistrosUmaVariavel[]>([]);
   //console.log("renderwith", registrosAllNos);
 
   useEffect(() => {
     const fetchData = async () => {
+      if (loading) return;
+      if (!user) return navigate("/login");
       const data = await nosGetData();
 
-      setRegistrosAllnos(data);
-      setInitialDataLoaded(true);
+      setRegistrosAllNos(data);
+      setBigDataLoaded(true);
     };
-    fetchData();
-  }, []);
-  useEffect(() => {
-    if (initialDataLoaded) {
-      nosObserver(registrosAllNos, setRegistrosAllnos);
+    if (!bigDataLoaded) {
+      fetchData();
     }
-  }, [initialDataLoaded]);
+  }, [user, loading]);
+  // useEffect(() => {
+  //   if (initialDataLoaded) {
+  //     nosObserver(registrosAllNos, setRegistrosAllnos);
+  //   }
+  // }, [initialDataLoaded]);
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -156,7 +171,10 @@ function DashBoard() {
 
   return (
     <Container maxWidth="lg">
-      <h1>This is the DashBoard page</h1>
+      <Box paddingTop={5}>
+        <Typography variant="h4">Dashboard</Typography>
+      </Box>
+
       <div className="content-box">
         <StatusBar />
       </div>

@@ -20,7 +20,7 @@ export type RegistrosUmNo={
 //       );
 // })
 
-export async function nosObserver(state:RegistrosUmNo[],callback:React.Dispatch<React.SetStateAction<RegistrosUmNo[]>>){
+export async function nosObserver(state:RegistrosUmNo[],callback:React.Dispatch<RegistrosUmNo[]>){
     //let AllNosRegistros: Array<RegistrosUmNo> = [];
     let unsubListenerFunctions: Unsubscribe[] = [];
     
@@ -59,7 +59,7 @@ export async function nosObserver(state:RegistrosUmNo[],callback:React.Dispatch<
               // ) );
                 callback(state.map((no)=>{
                   if(registro.id === no.noId && registro.timestamp !== no.registros[no.registros.length - 1].timestamp){
-                    console.log("update");
+                    console.log("update complexo no: ",no);
                     // console.log("state no registros",no.registros);
                     const newRegistros = no.registros
                     // console.log("newRegistros",newRegistros);

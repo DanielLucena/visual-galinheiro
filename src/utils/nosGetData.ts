@@ -14,9 +14,11 @@ export type RegistrosUmNo={
 
 
 export const nosGetData = async () => {
+  console.log("getData 10")
     const AllNosRegistros: RegistrosUmNo[] = [];
     
     for(const no of nosRatreados){
+      //console.log(`data from :${no}`);
     // nosRatreados.forEach(async (no)=>{
         const querie: Query<DocumentData> =  query(
                 NosRef,
@@ -26,6 +28,7 @@ export const nosGetData = async () => {
               );
               const registros: RegistroType[] = [];
               const res = await getDocs(querie);
+              console.log("docs read:", res.docs.length);
               res.forEach((doc) =>{
                 const temp = doc.data() as unknown;
                 const data = temp as RegistroType;

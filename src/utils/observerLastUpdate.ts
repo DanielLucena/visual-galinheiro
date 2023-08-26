@@ -19,8 +19,9 @@ export const observerLastUpdate =  (callback:React.Dispatch<React.SetStateAction
               const unsubscribre = onSnapshot(
                 querie as Query<QuerySnapshot<DocumentData>>,
                 (snapshot) => {
-                  console.log("inside onSnapshot no:", no)
+                  console.log(`${snapshot.docs.length} docs read, on no ${no}`)
                     snapshot.docs.forEach((doc) => {
+                      //console.log("on doc:", no)
                     const temp = doc.data() as unknown;
                     const data = temp as RegistroType;
                     
@@ -45,4 +46,5 @@ export const observerLastUpdate =  (callback:React.Dispatch<React.SetStateAction
     //callback(AllNosRegistros);
     
     }
+    return unsubListenerFunctions
 }
