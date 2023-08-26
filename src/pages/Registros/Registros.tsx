@@ -1,7 +1,6 @@
 import React, { useState, useMemo, useContext } from "react";
 import { useTable, Column } from "react-table";
 import { format } from "date-fns";
-import DatePicker from "react-datepicker";
 import "./dataTable.css";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../utils/firebase";
@@ -20,7 +19,6 @@ import {
 import { nosRatreados } from "../../utils/staticConfig";
 import RegistrosContext from "../../context/registrosContext";
 import { nosGetData } from "../../utils/nosGetData";
-import StatusBar from "../../components/StatusBar/StatusBar";
 
 interface DataItem {
   id: number;
@@ -105,8 +103,8 @@ const DataTable: React.FC = () => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable<DataItem>({ columns, data });
 
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [idFilter, setIdFilter] = useState<string>("");
+  // const [startDate, setStartDate] = useState<Date | null>(null);
+  // const [idFilter, setIdFilter] = useState<string>("");
   const [no, setNo] = React.useState("");
 
   const handleChange = (event: SelectChangeEvent) => {
