@@ -14,6 +14,7 @@ import { RegistrosUmaVariavel } from "../../utils/resgistroTypes";
 // import { useEffect, useState } from "react";
 import "./multipleLineChart.css";
 import { Skeleton, Stack, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 
 ChartJS.register(Colors);
 
@@ -30,6 +31,8 @@ ChartJS.register(
 export type multipleLineChartProps = {
   nos: RegistrosUmaVariavel[];
   title: string;
+  unit: string;
+  initialTime: Date;
 };
 export default function MultipleLineChart(props: multipleLineChartProps) {
   //console.log("props", props);
@@ -54,15 +57,31 @@ export default function MultipleLineChart(props: multipleLineChartProps) {
   //   });
   // }, [props.nos]);
   //console.log("chart", props);
+  const [labels, setLabels] = useState<string[]>([]);
+  //const [initialTime, setInitialTime] = useState<Date>(new Date());
+  useEffect(() => {
+    console.log("recalc labels");
 
-  var labels: string[] = [];
+    let internal: string[] = [];
+    let min = props.initialTime.getMinutes();
+    for (let i = 0; i < props?.nos[0]?.data.length; i++) {
+      internal.push(((min + i) % 60).toString());
+    }
+    setLabels(internal);
+  }, [props.initialTime]);
 
-  for (let i = 1; i <= props?.nos[0]?.data.length; i++) {
-    labels.push(i.toString());
-  }
+  //var labels: string[] = [];
+
+  //let initialTime = new Date(props?.times[0]?.data[0]);
+  //console.log("min ", initialTime.getMinutes());
+
+  // for (let i = 0; i < props?.nos[0]?.data.length; i++) {
+  //   labels.push((initialTime.getMinutes() + i).toString());
+  // }
   //console.log("labels", labels);
 
   var data = {
+    // labels: props?.times[0]?.data,
     labels: labels,
     datasets: props?.nos?.map((no) => {
       return {
@@ -190,17 +209,21 @@ export default function MultipleLineChart(props: multipleLineChartProps) {
     // animation,
     responsive: true,
     // events: [],
-    // animation: {
-    //   duration: 0,
-    // },
+    animation: {
+      duration: 1,
+    },
     responsiveAnimationDuration: 0,
 
     plugins: {
-      // tooltip: {
-      //   callbacks: {
-      //     label: (item: any) => `${item.label} ºc`,
-      //   },
-      // },
+      tooltip: {
+        callbacks: {
+          // label: (item: any) => {
+          //   console.log(item);
+          // },
+          label: (item: any) =>
+            `${item.dataset.label}: ${item.formattedValue}${props.unit}`,
+        },
+      },
       colors: { forceOverride: true },
       legend: {
         position: "top" as const,
@@ -211,15 +234,25 @@ export default function MultipleLineChart(props: multipleLineChartProps) {
       },
     },
     maintainAspectRatio: false,
-    scale: {
+    scales: {
       y: {
-        beginAtZero: true,
+        title: {
+          display: true,
+          text: `${props.title} (${props.unit})`,
+        },
       },
       x: {
-        //type: "time",
+        title: {
+          display: true,
+          text: `Por Minuto, apartir de: ${props.initialTime.toLocaleTimeString()}`,
+        },
+
         ticks: {
-          //autoSkip: true,
-          maxTicksLimit: 10,
+          // autoSkip: true,
+          maxTicksLimit: 12,
+          // callback: (value: string, index: any, values: any) => {
+          //   return new Date(value).getMinutes();
+          // },
         },
       },
     },

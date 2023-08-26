@@ -2,6 +2,7 @@ import { createContext, Dispatch, useEffect, useState } from "react";
 import { RegistroType, RegistrosUmNo } from "../utils/resgistroTypes";
 import { observerLastUpdate } from "../utils/observerLastUpdate";
 import { Unsubscribe } from "firebase/firestore";
+// import { nosRatreados } from "../utils/staticConfig";
 //export const ItemsListContext = createContext(0);
 
 //const [registrosAllNos, setRegistrosAllnos] = useState<RegistrosUmNo[]>([]);
@@ -25,6 +26,7 @@ export type RegistrosContextType = {
   nosLastUpdate: RegistroType[];
   setNosLastUpdate: Dispatch<React.SetStateAction<RegistroType[]>>;
   userLogout: () => void;
+  initialTime: Date;
 };
 
 export const RegistrosContext = createContext<RegistrosContextType>(
@@ -40,6 +42,7 @@ export const RegistrosProvider = (props: React.PropsWithChildren) => {
   const [unsubListenerFunctions, setUnsubListenerFunctions] = useState<
     Unsubscribe[]
   >([]);
+  const [initialTime, setInitialTime] = useState<Date>(new Date());
 
   useEffect(() => {
     if (initialDataLoaded) {
@@ -51,6 +54,13 @@ export const RegistrosProvider = (props: React.PropsWithChildren) => {
   useEffect(() => {
     atualizarNo(newRegistro);
   }, [newRegistro]);
+
+  useEffect(() => {
+    if (bigDataLoaded) {
+      setInitialTime(new Date(registrosAllNos[0].registros[0].timestamp));
+      console.log("big data loaded");
+    }
+  }, [bigDataLoaded]);
 
   const atualizarNo = (registro: RegistroType) => {
     setNosLastUpdate(
@@ -79,6 +89,10 @@ export const RegistrosProvider = (props: React.PropsWithChildren) => {
           return no;
         })
       );
+      if (registro.id === registrosAllNos[0].noId) {
+        console.log("atualiza no");
+        setInitialTime(new Date(registrosAllNos[0].registros[0].timestamp));
+      }
     }
   };
   const userLogout = () => {
@@ -103,6 +117,7 @@ export const RegistrosProvider = (props: React.PropsWithChildren) => {
         nosLastUpdate,
         setNosLastUpdate,
         userLogout,
+        initialTime,
       }}
     >
       {props.children}

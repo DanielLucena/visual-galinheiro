@@ -101,7 +101,7 @@ export default function ModalSideBar() {
       onClick: () => navigate("/dashboard"),
     },
     {
-      text: "Galinheiros",
+      text: "Monitoramento",
       icon: <WidgetsIcon />,
       onClick: () => navigate("/monitoring"),
     },

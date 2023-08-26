@@ -32,6 +32,7 @@ function DashBoard() {
     setRegistrosAllNos,
     bigDataLoaded,
     setBigDataLoaded,
+    initialTime,
   } = useContext(RegistrosContext);
   // const [registrosAllNos, setRegistrosAllnos] = useState<RegistrosPorSensor>({
   //   temperatura: [],
@@ -168,6 +169,16 @@ function DashBoard() {
       };
     });
   };
+  // const getRegistrosTimestamp = (registrosAllNos: RegistrosUmNo[]) => {
+  //   return registrosAllNos.map((no) => {
+  //     return {
+  //       label: no.noId.toString(),
+  //       data: no.registros.map((registro) => {
+  //         return registro.timestamp;
+  //       }),
+  //     };
+  //   });
+  // };
 
   return (
     <Container maxWidth="lg">
@@ -183,35 +194,45 @@ function DashBoard() {
         <div className="charts-grid">
           <Paper elevation={3} className="multi-line-chart">
             <MultipleLineChart
-              title={"temperatura"}
+              unit="°C"
+              title={"Temperatura"}
               nos={getDatasetsUmaVariavel(registrosAllNos, "temperatura")}
+              initialTime={initialTime}
             />
           </Paper>
 
           <Paper elevation={3} className="multi-line-chart">
             <MultipleLineChart
-              title={"umidade"}
+              unit="%"
+              title={"Umidade"}
               nos={getDatasetsUmaVariavel(registrosAllNos, "umidade")}
+              initialTime={initialTime}
             />
           </Paper>
 
           <Paper elevation={3} className="multi-line-chart">
             <MultipleLineChart
-              title={"amonia"}
+              unit="ppm"
+              title={"Amonia/CO2"}
               nos={getDatasetsUmaVariavel(registrosAllNos, "amonia")}
+              initialTime={initialTime}
             />
           </Paper>
 
           <Paper elevation={3} className="multi-line-chart">
             <MultipleLineChart
-              title={"luminosidade"}
+              unit="lx"
+              title={"Luminosidade"}
               nos={getDatasetsUmaVariavel(registrosAllNos, "luminosidade")}
+              initialTime={initialTime}
             />
           </Paper>
           <Paper elevation={3} className="multi-line-chart">
             <MultipleLineChart
+              unit=""
               title={"timestamps"}
               nos={getMinutesOfTimestamps(registrosAllNos)}
+              initialTime={initialTime}
             />
           </Paper>
         </div>

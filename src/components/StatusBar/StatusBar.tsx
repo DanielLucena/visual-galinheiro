@@ -176,7 +176,9 @@ export default function StatusBar() {
                 {horario.getDate() === now.getDate() &&
                 horario.getMonth() === now.getMonth() ? (
                   <>
-                    <Typography>{transformHora(horario) + ", "}</Typography>
+                    <Typography>
+                      {horario.toLocaleTimeString() + ", "}
+                    </Typography>
                     <Typography>{"hoje"}</Typography>
                   </>
                 ) : (

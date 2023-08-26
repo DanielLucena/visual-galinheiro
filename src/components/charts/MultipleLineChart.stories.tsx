@@ -9,7 +9,12 @@ export const MultipleLineChartStory: Story = () => {
   nos.push({ label: "4", data: [5, 2] });
   return (
     <>
-      <MultipleLineChart title={"tete"} nos={nos} />
+      <MultipleLineChart
+        title={"tete"}
+        nos={nos}
+        unit={"b"}
+        initialTime={new Date()}
+      />
     </>
   );
 };

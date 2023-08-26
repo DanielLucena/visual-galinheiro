@@ -136,6 +136,8 @@ function DashBoard() {
                   }),
                 };
               })}
+              unit={""}
+              initialTime={new Date()}
             />
           </div>
         </Paper>
@@ -144,6 +146,8 @@ function DashBoard() {
             <MultipleLineChart
               title={"umidade"}
               nos={getDatasetsUmaVariavel(registrosAllNos, "umidade")}
+              unit={""}
+              initialTime={new Date()}
             />
           </div>
         </Paper>
