@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import MultipleLineChart from "../../components/charts/MultipleLineChart";
 import { RegistrosUmNo } from "../../utils/resgistroTypes";
-import "./dashboard.css";
+import "../dashboard/dashboard.css";
 
 import Paper from "@mui/material/Paper";
 import { nosGetData } from "../../utils/nosGetData";
@@ -25,7 +25,7 @@ import RegistrosContext from "../../context/registrosContext";
 //   registros: RegistroType[];
 // };
 
-function DashBoard() {
+function Debug() {
   let navigate = useNavigate();
   const {
     registrosAllNos,
@@ -159,16 +159,16 @@ function DashBoard() {
       };
     });
   };
-  // const getMinutesOfTimestamps = (registrosAllNos: RegistrosUmNo[]) => {
-  //   return registrosAllNos.map((no) => {
-  //     return {
-  //       label: no.noId.toString(),
-  //       data: no.registros.map((registro) => {
-  //         return new Date(registro.timestamp).getMinutes();
-  //       }),
-  //     };
-  //   });
-  // };
+  const getMinutesOfTimestamps = (registrosAllNos: RegistrosUmNo[]) => {
+    return registrosAllNos.map((no) => {
+      return {
+        label: no.noId.toString(),
+        data: no.registros.map((registro) => {
+          return new Date(registro.timestamp).getMinutes();
+        }),
+      };
+    });
+  };
   // const getRegistrosTimestamp = (registrosAllNos: RegistrosUmNo[]) => {
   //   return registrosAllNos.map((no) => {
   //     return {
@@ -183,7 +183,7 @@ function DashBoard() {
   return (
     <Container maxWidth="lg">
       <Box paddingTop={5}>
-        <Typography variant="h4">Dashboard</Typography>
+        <Typography variant="h4">Debug</Typography>
       </Box>
 
       <div className="content-box">
@@ -227,18 +227,18 @@ function DashBoard() {
               initialTime={initialTime}
             />
           </Paper>
-          {/* <Paper elevation={3} className="multi-line-chart">
+          <Paper elevation={3} className="multi-line-chart">
             <MultipleLineChart
               unit=""
               title={"timestamps"}
               nos={getMinutesOfTimestamps(registrosAllNos)}
               initialTime={initialTime}
             />
-          </Paper> */}
+          </Paper>
         </div>
       </div>
     </Container>
   );
 }
 
-export default DashBoard;
+export default Debug;

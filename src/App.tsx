@@ -12,6 +12,7 @@ import Tabela from "./pages/tabela/Tabela";
 import Login from "./pages/Login/Login";
 import { Layout } from "./components/Layout/Layout";
 import { RegistrosProvider } from "./context/registrosContext";
+import Debug from "./pages/Debug/Debug";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
               <Route path="tabela" element={<Tabela />} />
               <Route path="data-table" element={<DataTable />} />
               <Route path="login" element={<Login />} />
+              <Route path="debug" element={<Debug />} />
             </Routes>
           </Layout>
         </RegistrosProvider>

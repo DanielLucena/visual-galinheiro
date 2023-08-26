@@ -21,7 +21,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import InsightsIcon from "@mui/icons-material/Insights";
 import HomeIcon from "@mui/icons-material/Home";
 import TocIcon from "@mui/icons-material/Toc";
-import WidgetsIcon from "@mui/icons-material/Widgets";
+// import WidgetsIcon from "@mui/icons-material/Widgets";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../utils/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -100,11 +100,11 @@ export default function ModalSideBar() {
       icon: <InsightsIcon />,
       onClick: () => navigate("/dashboard"),
     },
-    {
-      text: "Monitoramento",
-      icon: <WidgetsIcon />,
-      onClick: () => navigate("/monitoring"),
-    },
+    // {
+    //   text: "Monitoramento",
+    //   icon: <WidgetsIcon />,
+    //   onClick: () => navigate("/monitoring"),
+    // },
     {
       text: "Tabela",
       icon: <TocIcon />,
